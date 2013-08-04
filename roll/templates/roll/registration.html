@@ -3,6 +3,16 @@
 {% block content %}
 
   <form method="post" action="">
-     {{ form }}
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <legend>Εγγραφή</legend>
+    <fieldset>
+    {% for field in form %}
+      <div class="form-group">
+        {{ field.errors }}
+        <label for="{{ field.html_name }}">{{ field.label }}</label>
+        {{ field }}
+    {% endfor %}
+    </fieldset>
   </form>
 {% endblock %}
