@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+{% block head %}
+<head>
+  {% load staticfiles %}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'roll/css/bootstrap.min.css' %}"
+        media="screen"/>
+  <link rel="stylesheet" href="{% static 'roll/css/roll.css' %}"
+         media="screen"/>
+  <title>{% block title %}Electoral Roll{% endblock %}</title>
+  <style>
+    </style>
+</head>
+{% endblock %}
+
+<body>
+  {% block main %}
+  <div id="wrap">
+    <div class="container" id="content">
+      {% block content %}
+      {% endblock %}
+    </div>
+    <div id="push"></div>
+  </div>
+  {% endblock main %}
+  
+  <div id="footer">
+    <div class="container">
+      <p class="muted credit">
+        Greek Research and Technology Network
+        <a href="http://www.grnet.gr">(GRNET)</a>. Code at
+        <a href="https://github.com/grnet/hch-roll/">Github</a>.
+      </p>
+    </div>
+    
+  <script src="{% static 'roll/js/jquery-1.10.2.min.js' %}"></script>
+  <script src="{% static 'roll/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
