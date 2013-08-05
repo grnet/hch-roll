@@ -17,6 +17,8 @@ class RegistrationForm(forms.ModelForm):
             }
             if not field_name.startswith('voter'):
                 field.widget.attrs['readonly'] = 'true'
+            if type(field) == forms.ModelChoiceField:
+                field.empty_label = None
 
         if not self.instance:
             return
