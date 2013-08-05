@@ -21,13 +21,18 @@ def register(request, unique_id=None):
         else:
             form = RegistrationForm(request.POST)
         if form.is_valid():
-            voter.name = request.POST.get('voter_name', '')
-            voter.email = request.POST.get('voter_email', '')
-            voter.mobile_phone = request.POST.get('voter_mobile_phone', '')
+            voter.name = form.cleaned_data['voter_name']
+            voter.email = form.cleaned_data['voter_email']
+            voter.mobile_phone = form.cleaned_data['voter_mobile_phone']
             voter.save()
             establishment.voter = voter
             establishment.save()
-            return redirect(request.path + '/thanks')
+            return render(request, 'roll/thanks.html', {
+                'voter_name': voter.name,
+                'voter_email': voter.email,
+                'voter_mobile_phone': voter.mobile_phone,
+                'registration_url': request.path
+            })
     else:
         if unique_id:
             form = RegistrationForm(
