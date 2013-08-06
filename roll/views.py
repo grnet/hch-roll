@@ -25,6 +25,10 @@ def register(request, unique_id=None):
             voter.email = form.cleaned_data['voter_email']
             voter.mobile_phone = form.cleaned_data['voter_mobile_phone']
             voter.save()
+
+            # is_valid changes the instance. Invalidate, in order to avoid
+            # storing those changes.
+            establishment = Establishment.objects.get(unique_id=unique_id)
             establishment.voter = voter
             establishment.save()
             return render(request, 'roll/thanks.html', {
