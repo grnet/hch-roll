@@ -82,13 +82,15 @@ class Address(models.Model):
     street_number = models.CharField(max_length=200)
     zip_code = models.CharField(max_length=20)
     city = models.ForeignKey(City)
+    location = models.ForeignKey(Location)
     island = models.ForeignKey(Island)
 
     def __unicode__(self):
-        return u"{} {} {} {}".format(self.street_number,
-                                     self.zip_code,
-                                     self.city,
-                                     self.island)
+        return u"{} {} {} {} {}".format(self.street_number,
+                                        self.zip_code,
+                                        self.city,
+                                        self.location,
+                                        self.island)
     
 class Voter(models.Model):
     name = models.CharField(max_length=200)
@@ -101,7 +103,7 @@ class Voter(models.Model):
 class Establishment(models.Model):
     registry_number = models.IntegerField(unique=True)
     name = models.CharField(max_length=200)
-    location = models.ForeignKey(Location)
+    address = models.ForeignKey(Address)
     rating = models.ForeignKey(Rating)
     operator = models.ForeignKey(Operator)
     owner = models.ForeignKey(Owner)
@@ -118,5 +120,5 @@ class Establishment(models.Model):
 
     def __unicode__(self):
         return u"{} {} {}".format(self.registry_number, self.name,
-                                  self.location)
+                                  self.address)
     

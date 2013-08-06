@@ -95,13 +95,14 @@ class Command(BaseCommand):
                 street_number=row.street_number,
                 zip_code=row.zip_code,
                 city=city,
-                island=island)
+                island=island,
+                location=location)
             if c:
                 address.save()
             establishment, c = Establishment.objects.get_or_create(
                 registry_number=registry_number,
                 name=name,
-                location=location,
+                address=address,
                 rating=rating,
                 operator=operator,
                 owner=owner,
@@ -110,7 +111,7 @@ class Command(BaseCommand):
                 telephone=telephone,
                 fax=fax,
                 email=email,
-                electoral_group=electoral_group
+                electoral_group=electoral_group,
             )
             if c:
                 establishment.unique_id = uuid.uuid4()
