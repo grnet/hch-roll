@@ -22,7 +22,7 @@ class RegistrationForm(forms.ModelForm):
 
         if not self.instance:
             return
-        self.fields['address'].queryset = Location.objects.filter(
+        self.fields['address'].queryset = Address.objects.filter(
             id=self.instance.address_id)
         self.fields['rating'].queryset = Rating.objects.filter(
             id=self.instance.rating_id)
