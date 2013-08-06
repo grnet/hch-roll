@@ -10,19 +10,37 @@ import os
 
 from string import Template
 
+import xml.etree.ElementTree as ET
+
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 from reportlab.pdfgen import canvas
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Frame
+from reportlab.lib.styles import getSampleStyleSheet
+
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+pdfmetrics.registerFont(TTFont('Linux Libertine', '/Users/panos/Library/Fonts/LinLibertine_Rah.ttf'))
+# pdfmetrics.registerFont(TTFont('Linux Libertine Bold', 'LinLibertine_Rbah.ttf'))
+# pdfmetrics.registerFont(TTFont('Linux Libertine Italics',
+#                                'LinLibertine_RIah.ttf'))
+# pdfmetrics.registerFont(TTFont('Linux Libertine Bold Italics',
+#                                'LinLibertine_RBIah.ttf'))
 
 PAGE_WIDTH, PAGE_HEIGHT = A4
 ENVELOPE_WIDTH = 23*cm
 ENVELOPE_HEIGHT = 11.5*cm
+ENVELOPE_MARGIN_X = 2*cm
+ENVELOPE_MARGIN_Y = 2*cm
 WINDOW_WIDTH = 10.5*cm
 WINDOW_HEIGHT = 4.5*cm
-WINDOW_MARGIN_X = 2*cm
-WINDOW_MARGIN_Y = 2*cm
-WINDOW_ORIGIN_X = PAGE_WIDTH - WINDOW_WIDTH - WINDOW_MARGIN_X
-WINDOW_ORIGIN_Y = PAGE_HEIGHT - ENVELOPE_HEIGHT + WINDOW_MARGIN_Y
+WINDOW_ORIGIN_X = PAGE_WIDTH - WINDOW_WIDTH - ENVELOPE_MARGIN_X
+WINDOW_ORIGIN_Y = PAGE_HEIGHT - ENVELOPE_HEIGHT + ENVELOPE_MARGIN_Y
+BODY_MARGIN = 2.5*cm
+BODY_ORIGIN_X = BODY_MARGIN
+BODY_ORIGIN_Y = BODY_MARGIN
+BODY_HEIGHT = PAGE_HEIGHT - ENVELOPE_HEIGHT - ENVELOPE_MARGIN_Y
+BODY_WIDTH = PAGE_WIDTH - 2 * BODY_MARGIN
 
 class Command(BaseCommand):
     help = """Creates voter notifications. If no recipients file is given,
@@ -46,20 +64,34 @@ input file. Recipients are indicated by their unique IDs"""
                     dest='input_file',
                     help='set recipients file',
                     ),
+        make_option('-t',
+                    '--template',
+                    action='store',
+                    type='string',
+                    dest='template_file',
+                    help='template file for document content',
+                ),        
     )
 
     def make_notice(self, participant, mapping, notice_template):
         mapping.update({
             'unique_id': participant.unique_id,
             })
+        body = []
         if notice_template is not None:
             notice = notice_template.safe_substitute(mapping)
-        else:
-            notice = ""
+            xmldoc = ET.fromstring(notice)
+            styles = getSampleStyleSheet()
+            styleN = styles['Normal']                    
+            for para in xmldoc.iter('para'):
+                para_str = ET.tostring(para, encoding="utf-8", method="xml")
+                body.append(Paragraph(para_str, styleN))
         c = canvas.Canvas(participant.unique_id + ".pdf", pagesize=A4)
+        doc = SimpleDocTemplate(participant.unique_id + ".pdf", pagesize=A4)
         c.rect(WINDOW_ORIGIN_X, WINDOW_ORIGIN_Y, WINDOW_WIDTH, WINDOW_HEIGHT)
         address_window = c.beginText()
-        address_window.setFont("Times-Roman", 12)
+        c.setFont('Linux Libertine', 12)        
+        address_window.setFont('Linux Libertine', 12)
         address_window.setTextOrigin(WINDOW_ORIGIN_X + 0.5*cm,
                                      WINDOW_ORIGIN_Y + WINDOW_HEIGHT - 0.5*cm)
         address_window.textLine(participant.name)
@@ -67,10 +99,18 @@ input file. Recipients are indicated by their unique IDs"""
         address_window.textLine(participant.address.zip_code)
         address_window.textLine(str(participant.address.city))
         c.drawText(address_window)
+        f = Frame(BODY_ORIGIN_X, BODY_ORIGIN_Y, BODY_WIDTH, BODY_HEIGHT,
+                  showBoundary=0)
+        f.addFromList(body, c)
         return c
                 
     def make_notices(self, args, options):
-        notice_template = Template("")
+        if options['template_file']:
+            template_file = open(options['template_file'], 'r')
+            template_contents = template_file.read()
+            notice_template = Template(template_contents)
+        else:
+            notice_template = Template("")
         if options['all']:
             participants = Establishment.objects.all()
         elif options['input_file']:
