@@ -59,7 +59,7 @@ input file. Recipients are indicated by their unique IDs"""
         c = canvas.Canvas(participant.unique_id + ".pdf", pagesize=A4)
         c.rect(WINDOW_ORIGIN_X, WINDOW_ORIGIN_Y, WINDOW_WIDTH, WINDOW_HEIGHT)
         address_window = c.beginText()
-        address_window.setFont("Helvetica", 12)
+        address_window.setFont("Times-Roman", 12)
         address_window.setTextOrigin(WINDOW_ORIGIN_X + 0.5*cm,
                                      WINDOW_ORIGIN_Y + WINDOW_HEIGHT - 0.5*cm)
         address_window.textLine(participant.name)
