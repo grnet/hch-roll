@@ -22,8 +22,8 @@ class RegistrationForm(forms.ModelForm):
 
         if not self.instance:
             return
-        self.fields['location'].queryset = Location.objects.filter(
-            id=self.instance.location_id)
+        self.fields['address'].queryset = Location.objects.filter(
+            id=self.instance.address_id)
         self.fields['rating'].queryset = Rating.objects.filter(
             id=self.instance.rating_id)
         self.fields['operator'].queryset = Operator.objects.filter(
