@@ -116,11 +116,10 @@ class Command(BaseCommand):
             if c:
                 establishment.unique_id = uuid.uuid4()
                 establishment.save()
-            self.stdout.write("\r{}".format(line), ending='')
+            self.stdout.write("\r{}".format(line+1), ending='')
             self.stdout.flush()
-            line += 1
         self.stdout.write("")
-        self.stdout.write("{}".format(line))                    
+        self.stdout.write("{}".format(line+1))                    
     
     def handle(self, *args, **options):
         if len(args) != 1:

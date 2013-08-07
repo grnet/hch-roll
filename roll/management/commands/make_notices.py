@@ -17,7 +17,7 @@ import xml.etree.ElementTree as ET
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 from reportlab.pdfgen import canvas
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Frame
+from reportlab.platypus import Paragraph, Frame
 from reportlab.lib.styles import getSampleStyleSheet
 
 from reportlab.pdfbase import pdfmetrics
@@ -69,25 +69,36 @@ input file. Recipients are indicated by their unique IDs"""
                     type='string',
                     dest='template_file',
                     help='template file for document content',
-                ),        
+                ),
+        make_option('-d',
+                    '--destination_dir',
+                    action='store',
+                    type='string',
+                    dest='destination_dir',
+                    help='destination directory for PDF files',
+                ),                
     )
 
-    def make_notice(self, participant, mapping, notice_template):
+    def make_notice(self, participant, mapping, notice_template,
+                    destination_dir=None):
         mapping.update({
             'unique_id': participant.unique_id.encode('utf-8'),
             })
         body = []
+        styles = getSampleStyleSheet()
+        styleN = styles['Normal']
+        styleN.fontName = 'Linux Libertine'        
         if notice_template is not None:
             notice = notice_template.safe_substitute(mapping)
             xmldoc = ET.fromstring(notice)
-            styles = getSampleStyleSheet()
-            styleN = styles['Normal']
-            styleN.fontName = 'Linux Libertine'
             for para in xmldoc.iter('para'):
                 para_str = ET.tostring(para, encoding="utf-8", method="xml")
                 body.append(Paragraph(para_str, styleN))
-        c = canvas.Canvas(participant.unique_id + ".pdf", pagesize=A4)
-        doc = SimpleDocTemplate(participant.unique_id + ".pdf", pagesize=A4)
+        destination_filename = participant.unique_id + ".pdf"
+        destination = destination_filename
+        if destination_dir:
+            destination = os.path.join(destination_dir, destination_filename)
+        c = canvas.Canvas(destination, pagesize=A4)
         c.rect(WINDOW_ORIGIN_X, WINDOW_ORIGIN_Y, WINDOW_WIDTH, WINDOW_HEIGHT)
         address_window = c.beginText()
         c.setFont('Linux Libertine', 12)        
@@ -120,12 +131,18 @@ input file. Recipients are indicated by their unique IDs"""
                     voter__email__in=emails)
         else:
             participants = Establishment.objects.filter(unique_id__in=args)
-        
-        for participant in participants:
+
+        for num_participant, participant in enumerate(participants):
             notice = self.make_notice(participant,
                                       {},
-                                      notice_template)
+                                      notice_template,
+                                      options['destination_dir'])
             notice.save()
+            self.stdout.write("\r{}".format(num_participant+1), ending='')
+            self.stdout.flush()
+        self.stdout.write("")
+        self.stdout.write("{}".format(num_participant+1))                    
+
             
     def handle(self, *args, **options):
         self.make_notices(args, options)
