@@ -126,9 +126,9 @@ input file. Recipients are indicated by their unique IDs"""
             participants = Establishment.objects.all()
         elif options['input_file']:
             with open(options['input_file'], 'r') as participants_file:
-                emails = [x.rstrip() for x in participants_file.readlines()]
+                unique_ids = [x.rstrip() for x in participants_file.readlines()]
                 participants = Establishment.objects.filter(
-                    voter__email__in=emails)
+                    unique_id__in=unique_ids)
         else:
             participants = Establishment.objects.filter(unique_id__in=args)
 
