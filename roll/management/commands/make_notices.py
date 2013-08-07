@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.core.exceptions import ObjectDoesNotExist
 
+from django.conf import settings
+
 from roll.models import Establishment, Address
 
 from optparse import make_option
@@ -20,12 +22,9 @@ from reportlab.lib.styles import getSampleStyleSheet
 
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-pdfmetrics.registerFont(TTFont('Linux Libertine', '/Users/panos/Library/Fonts/LinLibertine_Rah.ttf'))
-# pdfmetrics.registerFont(TTFont('Linux Libertine Bold', 'LinLibertine_Rbah.ttf'))
-# pdfmetrics.registerFont(TTFont('Linux Libertine Italics',
-#                                'LinLibertine_RIah.ttf'))
-# pdfmetrics.registerFont(TTFont('Linux Libertine Bold Italics',
-#                                'LinLibertine_RBIah.ttf'))
+pdfmetrics.registerFont(TTFont('Linux Libertine',
+                               os.path.join(settings.FONTS_DIR,
+                                            'LinLibertine_Rah.ttf')))
 
 PAGE_WIDTH, PAGE_HEIGHT = A4
 ENVELOPE_WIDTH = 23*cm
@@ -75,14 +74,15 @@ input file. Recipients are indicated by their unique IDs"""
 
     def make_notice(self, participant, mapping, notice_template):
         mapping.update({
-            'unique_id': participant.unique_id,
+            'unique_id': participant.unique_id.encode('utf-8'),
             })
         body = []
         if notice_template is not None:
             notice = notice_template.safe_substitute(mapping)
             xmldoc = ET.fromstring(notice)
             styles = getSampleStyleSheet()
-            styleN = styles['Normal']                    
+            styleN = styles['Normal']
+            styleN.fontName = 'Linux Libertine'
             for para in xmldoc.iter('para'):
                 para_str = ET.tostring(para, encoding="utf-8", method="xml")
                 body.append(Paragraph(para_str, styleN))

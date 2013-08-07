@@ -14,3 +14,5 @@ DATABASES = {
 }
 
 SECRET_KEY = '@a1t6ufa3osd5%hdv%jx5x7&eypm%5u!79vb^3y4b^%+0x9q#j8r#'
+
+FONTS_DIR = '/Users/panos/Library/Fonts/'
