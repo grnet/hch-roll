@@ -55,7 +55,7 @@ input file. Recipients are indicated by their unique IDs"""
                     action='store_true',
                     dest='all',
                     help='Create notifications for all participants',
-                ),        
+                ),
         make_option('-i',
                     '--input',
                     action='store',
@@ -76,7 +76,7 @@ input file. Recipients are indicated by their unique IDs"""
                     type='string',
                     dest='destination_dir',
                     help='destination directory for PDF files',
-                ),                
+                ),
     )
 
     def make_notice(self, participant, mapping, notice_template,
@@ -87,7 +87,7 @@ input file. Recipients are indicated by their unique IDs"""
         body = []
         styles = getSampleStyleSheet()
         styleN = styles['Normal']
-        styleN.fontName = 'Linux Libertine'        
+        styleN.fontName = 'Linux Libertine'
         if notice_template is not None:
             notice = notice_template.safe_substitute(mapping)
             xmldoc = ET.fromstring(notice)
@@ -101,7 +101,7 @@ input file. Recipients are indicated by their unique IDs"""
         c = canvas.Canvas(destination, pagesize=A4)
         c.rect(WINDOW_ORIGIN_X, WINDOW_ORIGIN_Y, WINDOW_WIDTH, WINDOW_HEIGHT)
         address_window = c.beginText()
-        c.setFont('Linux Libertine', 12)        
+        c.setFont('Linux Libertine', 12)
         address_window.setFont('Linux Libertine', 12)
         address_window.setTextOrigin(WINDOW_ORIGIN_X + 0.5*cm,
                                      WINDOW_ORIGIN_Y + WINDOW_HEIGHT - 0.5*cm)
@@ -114,7 +114,7 @@ input file. Recipients are indicated by their unique IDs"""
                   showBoundary=0)
         f.addFromList(body, c)
         return c
-                
+
     def make_notices(self, args, options):
         if options['template_file']:
             template_file = open(options['template_file'], 'r')
@@ -138,14 +138,14 @@ input file. Recipients are indicated by their unique IDs"""
                                       notice_template,
                                       options['destination_dir'])
             notice.save()
-            self.stdout.write("\r{}".format(num_participant+1), ending='')
+            self.stdout.write("\r{}".format(num_participant+1))
             self.stdout.flush()
         self.stdout.write("")
-        self.stdout.write("{}".format(num_participant+1))                    
+        self.stdout.write("{}".format(num_participant+1))
 
-            
+
     def handle(self, *args, **options):
         self.make_notices(args, options)
-        
-        
-        
+
+
+
