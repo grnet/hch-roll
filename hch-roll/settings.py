@@ -33,15 +33,13 @@ TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-<<<<<<< HEAD
 LANGUAGE_CODE = 'el-gr'
 
 LOCALE_PATHS = (
     ('locale'), 
 )
-=======
+
 LANGUAGE_CODE = 'en-us'
->>>>>>> 20219c571df914c9adbefee177c7d6ac4272c728
 
 SITE_ID = 1
 
