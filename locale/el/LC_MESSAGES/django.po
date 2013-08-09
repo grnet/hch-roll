@@ -1,0 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-08-09 12:01+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: roll/forms.py:9
+msgid "voter name"
+msgstr "Ονοματεπώνυμο Ψηφοφόρου"
+
+#: roll/forms.py:10
+msgid "voter email"
+msgstr "Email"
+
+#: roll/forms.py:12
+msgid "voter mobile phone"
+msgstr "Κινητό Τηλέφωνο"
+
+#: roll/models.py:102
+msgid "registry number"
+msgstr "Αριθμός Μητρώου"
+
+#: roll/models.py:104
+msgid "name"
+msgstr "Όνομα Καταλύμματος"
+
+#: roll/models.py:106
+msgid "address"
+msgstr "Διεύθυνση"
+
+#: roll/models.py:108
+msgid "rating"
+msgstr "Κατηγορία"
+
+#: roll/models.py:110
+msgid "operator"
+msgstr "Εκμεταλλευτής"
+
+#: roll/models.py:112
+msgid "owner"
+msgstr "Επιχειρηματίας"
+
+#: roll/models.py:113
+msgid "license"
+msgstr "Άδεια Λειτουργίας"
+
+#: roll/models.py:116
+msgid "fee payment"
+msgstr "Ταμειακή Ενημερότητα"
+
+#: roll/models.py:118
+msgid "telephone"
+msgstr "Τηλέφωνο"
+
+#: roll/models.py:120
+msgid "fax"
+msgstr "Fax"
+
+#: roll/models.py:121
+msgid "email"
+msgstr "Email"
+
+#: roll/models.py:124
+msgid "electoral group"
+msgstr "Εκλογική Ομάδα"
+
+#: roll/models.py:126
+msgid "voter"
+msgstr "Ψηφοφόρος"
+
+#: roll/models.py:128
+msgid "unique id"
+msgstr "Μοναδικός Αριθμός"

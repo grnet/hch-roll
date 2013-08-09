@@ -1,9 +1,6 @@
 from django.db import models
 
-import random
-import string
-
-random.seed()
+from django.utils.translation import ugettext_lazy as _
 
 class Location(models.Model):
     name = models.CharField(max_length=200)
@@ -101,22 +98,34 @@ class Voter(models.Model):
         return u"{} {} {}".format(self.name, self.email, self.mobile_phone)
     
 class Establishment(models.Model):
-    registry_number = models.IntegerField(unique=True)
-    name = models.CharField(max_length=200)
-    address = models.ForeignKey(Address)
-    rating = models.ForeignKey(Rating)
-    operator = models.ForeignKey(Operator)
-    owner = models.ForeignKey(Owner)
-    license = models.BooleanField()
+    registry_number = models.IntegerField(unique=True,
+                                          verbose_name=_("registry number"))
+    name = models.CharField(max_length=200,
+                            verbose_name=_("name"))
+    address = models.ForeignKey(Address,
+                                verbose_name=_("address"))
+    rating = models.ForeignKey(Rating,
+                               verbose_name=_("rating"))
+    operator = models.ForeignKey(Operator,
+                                 verbose_name=_("operator"))
+    owner = models.ForeignKey(Owner,
+                              verbose_name=_("owner"))
+    license = models.BooleanField(verbose_name=_("license"))
     fee_payment = models.ForeignKey(FeePayment,
-                                    related_name='fee_payment')
-    telephone = models.CharField(max_length=20)
-    fax = models.CharField(max_length=20)
-    email = models.EmailField()
+                                    related_name='fee_payment',
+                                    verbose_name=_("fee payment"))
+    telephone = models.CharField(max_length=20,
+                                 verbose_name=_("telephone"))
+    fax = models.CharField(max_length=20,
+                           verbose_name=_("fax"))
+    email = models.EmailField(verbose_name=_("email"))
     electoral_group = models.ForeignKey(ElectoralGroup,
-                                        related_name='electoral_group')
-    voter = models.ForeignKey(Voter, null=True, blank=True)
-    unique_id = models.CharField(max_length=200, unique=True)
+                                        related_name='electoral_group',
+                                        verbose_name=_("electoral group"))
+    voter = models.ForeignKey(Voter, null=True, blank=True,
+                              verbose_name=_("voter"))
+    unique_id = models.CharField(max_length=200, unique=True,
+                                 verbose_name=_("unique id"))
 
     def __unicode__(self):
         return u"{} {} {}".format(self.registry_number, self.name,
