@@ -1,6 +1,6 @@
 # Django settings for hch-roll project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -36,7 +36,7 @@ TIME_ZONE = 'America/Chicago'
 LANGUAGE_CODE = 'el-gr'
 
 LOCALE_PATHS = (
-    ('locale'), 
+    ('locale'),
 )
 
 LANGUAGE_CODE = 'en-us'
