@@ -1,9 +1,8 @@
 from django import forms
 
-<<<<<<< HEAD
 from django.utils.translation import ugettext_lazy as _
 
-from models import * 
+from models import *
 
 class RegistrationForm(forms.ModelForm):
     voter_name = forms.CharField(max_length=200,
@@ -11,18 +10,10 @@ class RegistrationForm(forms.ModelForm):
     voter_email = forms.EmailField(label=_('voter email'))
     voter_mobile_phone = forms.CharField(max_length=20,
                                          label=_('voter mobile phone'))
-=======
-from models import * 
-
-class RegistrationForm(forms.ModelForm):
-    voter_name = forms.CharField(max_length=200)
-    voter_email = forms.EmailField()
-    voter_mobile_phone = forms.CharField(max_length=20)
->>>>>>> 20219c571df914c9adbefee177c7d6ac4272c728
 
     voter_field_names = ('voter_name', 'voter_email', 'voter_mobile_phone',)
 
-    def __init__(self, *args, **kwargs):        
+    def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.iteritems():
             field.widget.attrs = {
@@ -30,11 +21,9 @@ class RegistrationForm(forms.ModelForm):
             }
             if not field_name.startswith('voter'):
                 field.widget.attrs['readonly'] = 'true'
-<<<<<<< HEAD
-=======
+
             if type(field) == forms.ModelChoiceField:
                 field.empty_label = None
->>>>>>> 20219c571df914c9adbefee177c7d6ac4272c728
 
         if not self.instance:
             return
@@ -56,9 +45,9 @@ class RegistrationForm(forms.ModelForm):
     def non_voter_fields(self):
         return [field for field in self.visible_fields()
                 if field.name not in RegistrationForm.voter_field_names ]
-        
+
     class Meta:
         model = Establishment
         exclude = ('license', 'unique_id', 'fee_payment', 'voter',)
 
-    
+
