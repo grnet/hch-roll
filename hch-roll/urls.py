@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
+app_patterns = patterns('',
     # Examples:
     # url(r'^$', 'hch-roll.views.home', name='home'),
     # url(r'^hch-roll/', include('elections.foo.urls')),
@@ -14,3 +14,5 @@ urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^roll/', include('roll.urls')),
 )
+
+urlpatterns = patterns('', url('^r/', include(app_patterns)))
