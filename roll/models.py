@@ -1,10 +1,6 @@
 from django.db import models
 
 from django.utils.translation import ugettext_lazy as _
-import random
-import string
-
-random.seed()
 
 class Location(models.Model):
     name = models.CharField(max_length=200)

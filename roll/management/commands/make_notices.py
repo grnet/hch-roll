@@ -91,7 +91,7 @@ input file. Recipients are indicated by their unique IDs"""
         if notice_template is not None:
             notice = notice_template.safe_substitute(mapping)
             xmldoc = ET.fromstring(notice)
-            for para in xmldoc.iter('para'):
+            for para in xmldoc.findall('para'):
                 para_str = ET.tostring(para, encoding="utf-8", method="xml")
                 body.append(Paragraph(para_str, styleN))
         destination_filename = participant.unique_id + ".pdf"
