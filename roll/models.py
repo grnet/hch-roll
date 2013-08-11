@@ -10,26 +10,26 @@ class Location(models.Model):
     name = models.CharField(max_length=200)
 
     def __unicode__(self):
-        return u"{}".format(self.name)
+        return u"{0}".format(self.name)
 
 class Rating(models.Model):
     name = models.CharField(max_length=50)
     position = models.IntegerField()
 
     def __unicode__(self):
-        return u"{} {}".format(self.name, self.position)
+        return u"{0} {1}".format(self.name, self.position)
 
 class Operator(models.Model):
     name = models.CharField(max_length=200)
 
     def __unicode__(self):
-        return u"{}".format(self.name)
+        return u"{0}".format(self.name)
 
 class Owner(models.Model):
     name = models.CharField(max_length=200)
 
     def __unicode__(self):
-        return u"{}".format(self.name)
+        return u"{0}".format(self.name)
 
 
 class FeePayment(models.Model):
@@ -40,7 +40,7 @@ class FeePayment(models.Model):
         db_table  = 'roll_fee_payment'
 
     def __unicode__(self):
-        return u"{} {:%d/%m/%Y}".format(self.fee_paid, self.payment_date)
+        return u"{0} {:%d/%m/%Y}".format(self.fee_paid, self.payment_date)
 
 
 class ElectoralGroup(models.Model):
@@ -51,33 +51,33 @@ class ElectoralGroup(models.Model):
         db_table  =  'roll_electoral_group'
 
     def __unicode__(self):
-        return u"{} {}".format(self.code, self.name)
+        return u"{0} {1}".format(self.code, self.name)
 
 class Region(models.Model):
     name = models.CharField(max_length=200)
 
     def __unicode__(self):
-        return u"{}".format(self.name)
+        return u"{0}".format(self.name)
 
 class Prefecture(models.Model):
     name = models.CharField(max_length=200)
     region = models.ForeignKey(Region)
 
     def __unicode__(self):
-        return u"{}".format(self.name, self.region)
+        return u"{0}".format(self.name, self.region)
 
 class City(models.Model):
     name = models.CharField(max_length=200)
     prefecture = models.ForeignKey(Prefecture)
 
     def __unicode__(self):
-        return u"{}".format(self.name, self.prefecture)
+        return u"{0}".format(self.name, self.prefecture)
 
 class Island(models.Model):
     name = models.CharField(max_length=100)
 
     def __unicode__(self):
-        return u"{}".format(self.name)
+        return u"{0}".format(self.name)
 
 class Address(models.Model):
     street_number = models.CharField(max_length=200)
@@ -87,7 +87,7 @@ class Address(models.Model):
     island = models.ForeignKey(Island)
 
     def __unicode__(self):
-        return u"{} {} {} {} {}".format(self.street_number,
+        return u"{0} {1} {2} {3} {4}".format(self.street_number,
                                         self.zip_code,
                                         self.city,
                                         self.location,
@@ -99,7 +99,7 @@ class Voter(models.Model):
     mobile_phone = models.CharField(max_length=20)
 
     def __unicode__(self):
-        return u"{} {} {}".format(self.name, self.email, self.mobile_phone)
+        return u"{0} {1} {2}".format(self.name, self.email, self.mobile_phone)
 
 class Establishment(models.Model):
     registry_number = models.IntegerField(unique=True,
@@ -132,6 +132,6 @@ class Establishment(models.Model):
                                  verbose_name=_("unique id"))
 
     def __unicode__(self):
-        return u"{} {} {}".format(self.registry_number, self.name,
+        return u"{0} {1} {2}".format(self.registry_number, self.name,
                                   self.address)
 
