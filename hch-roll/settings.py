@@ -1,4 +1,10 @@
 # Django settings for hch-roll project.
+import os
+
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+
+# project specific templates (e.g. 404, 500 etc)
+TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, 'templates'),)
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
