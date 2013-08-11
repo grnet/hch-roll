@@ -138,10 +138,10 @@ input file. Recipients are indicated by their unique IDs"""
                                       notice_template,
                                       options['destination_dir'])
             notice.save()
-            self.stdout.write("\r{}".format(num_participant+1))
+            self.stdout.write("\r{0}".format(num_participant+1))
             self.stdout.flush()
         self.stdout.write("")
-        self.stdout.write("{}".format(num_participant+1))
+        self.stdout.write("{0}".format(num_participant+1))
 
 
     def handle(self, *args, **options):
