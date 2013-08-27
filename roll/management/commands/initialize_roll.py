@@ -7,7 +7,7 @@ from datetime import datetime
 import csv
 import uuid
 
-import inspect
+import django
 
 from django.db import transaction
 
@@ -41,9 +41,10 @@ class Command(BaseCommand):
     
     @transaction.commit_on_success
     def initialize_roll(self, datafile):
-        accepts_ending = False
-        if 'ending' in inspect.getargspec(self.stdout.write).args:
-            accepts_ending = True
+        if django.get_version() >= '1.5':
+            write = partial(self.stdout.write, ending = '')
+        else:
+            write = self.stdout.write
         RollRow = namedtuple('RollRow', ROW_HEADERS)
         for line, row in enumerate(
                 map(lambda r: RollRow._make([s.decode('utf-8') for s in r]),
@@ -103,11 +104,8 @@ class Command(BaseCommand):
             if c:
                 establishment.unique_id = uuid.uuid4()
                 establishment.save()
-            if accepts_ending:
-                self.stdout.write("\r{0}".format(line+1), ending='')
-            else:
-                self.stdout.write("\r{0}".format(line+1))                
-            self.stdout.flush()            
+                write("\r{0}".format(line+1))
+                self.stdout.flush()            
         self.stdout.write("")
 
     def handle(self, *args, **options):

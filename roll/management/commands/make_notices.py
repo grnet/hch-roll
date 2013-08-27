@@ -152,6 +152,7 @@ input file. Recipients are indicated by their unique IDs"""
                                        options['destination_filename'])
         else:
             destination = options['destination_filename']
+        establishments = establishments.order_by('registry_number')
         for num_establishment, establishment in enumerate(establishments):
             mapping = {
                 'unique_id': establishment.unique_id.encode('utf-8'),
