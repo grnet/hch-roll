@@ -16,9 +16,7 @@ class RegistrationKeyForm(forms.Form):
         min_length=36,
         max_length=36,
         label=_('registration unique id'),
-        validators=[MinLengthValidator,
-                    MaxLengthValidator,
-                    unique_id_exists])
+        validators=[unique_id_exists])
 
     def __init__(self, *args, **kwargs):
         super(RegistrationKeyForm, self).__init__(*args, **kwargs)

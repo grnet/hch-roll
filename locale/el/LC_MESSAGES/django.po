@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-26 16:47+0300\n"
+"POT-Creation-Date: 2013-08-27 14:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,29 +20,33 @@ msgstr ""
 
 #: hch-roll/templates/404.html:2
 msgid "Page not found"
-msgstr ""
+msgstr "Η σελίδα δε βρέθηκε"
 
 #: roll/forms.py:11
 msgid "unique id does not exist"
 msgstr "Ανύπαρκτος κωδικός"
 
-#: roll/forms.py:18
+#: roll/forms.py:15
+msgid "wrong unique id length"
+msgstr "Λάθος κωδικός (πρέπει να έχει μήκος 36 χαρακτήρες)"
+
+#: roll/forms.py:22
 msgid "registration unique id"
 msgstr "Εισάγετε τον κωδικό εγγραφής σας"
 
-#: roll/forms.py:34
+#: roll/forms.py:37
 msgid "voter first name"
 msgstr "Όνομα Ψηφοφόρου"
 
-#: roll/forms.py:36
+#: roll/forms.py:39
 msgid "voter surname"
 msgstr "Επώνυμο Ψηφοφόρου"
 
-#: roll/forms.py:37
+#: roll/forms.py:40
 msgid "voter email"
 msgstr "Email"
 
-#: roll/forms.py:39
+#: roll/forms.py:42
 msgid "voter mobile phone"
 msgstr "Κινητό Τηλέφωνο"
 
