@@ -1,12 +1,24 @@
 from django.shortcuts import render, redirect
 
-from django.http import HttpResponse
-
 from models import Establishment, Voter
 
-from forms import RegistrationForm
+from forms import *
+
+def register_key(request):
+    request.session['django_language'] = 'el-gr'
+    if request.method == 'POST':
+        form = RegistrationKeyForm(request.POST)
+        if form.is_valid():
+            unique_id = form.cleaned_data['unique_id']
+            return redirect('register', unique_id=unique_id)
+    else:
+        form = RegistrationKeyForm()
+    return render(request, 'roll/registration-key.html', {
+        'form': form,
+    })
 
 def register(request, unique_id=None):
+    request.session['django_language'] = 'el-gr'
     establishment = None
     voter = None
     if unique_id:
@@ -21,7 +33,8 @@ def register(request, unique_id=None):
         else:
             form = RegistrationForm(request.POST)
         if form.is_valid():
-            voter.name = form.cleaned_data['voter_name']
+            voter.first_name = form.cleaned_data['voter_first_name']
+            voter.surname = form.cleaned_data['voter_surname']
             voter.email = form.cleaned_data['voter_email']
             voter.mobile_phone = form.cleaned_data['voter_mobile_phone']
             voter.save()
@@ -32,7 +45,8 @@ def register(request, unique_id=None):
             establishment.voter = voter
             establishment.save()
             return render(request, 'roll/thanks.html', {
-                'voter_name': voter.name,
+                'voter_first_name': voter.first_name,
+                'voter_surname': voter.surname,
                 'voter_email': voter.email,
                 'voter_mobile_phone': voter.mobile_phone,
                 'registration_url': request.path
@@ -42,7 +56,8 @@ def register(request, unique_id=None):
             form = RegistrationForm(
                 instance=establishment,
                 initial={
-                    'voter_name': voter.name,
+                    'voter_first_name': voter.first_name,
+                    'voter_surname': voter.surname,
                     'voter_email': voter.email,
                     'voter_mobile_phone': voter.mobile_phone,
                 })

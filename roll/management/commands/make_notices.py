@@ -9,6 +9,10 @@ from optparse import make_option
 
 import sys
 import os
+import copy
+
+import django
+from functools import partial
 
 from string import Template
 
@@ -16,30 +20,33 @@ import xml.etree.ElementTree as ET
 
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
-from reportlab.pdfgen import canvas
-from reportlab.platypus import Paragraph, Frame
+from reportlab.platypus import *
 from reportlab.lib.styles import getSampleStyleSheet
 
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-pdfmetrics.registerFont(TTFont('Linux Libertine',
+pdfmetrics.registerFont(TTFont('Arial',
                                os.path.join(settings.FONTS_DIR,
-                                            'LinLibertine_Rah.ttf')))
+                                            'Arial.ttf')))
+pdfmetrics.registerFont(TTFont('Arial Bold',
+                               os.path.join(settings.FONTS_DIR,
+                                            'Arial Bold.ttf')))
+pdfmetrics.registerFont(TTFont('Arial Italic',
+                               os.path.join(settings.FONTS_DIR,
+                                            'Arial Italic.ttf')))
+pdfmetrics.registerFont(TTFont('Arial Bold Italic',
+                               os.path.join(settings.FONTS_DIR,
+                                            'Arial Bold Italic.ttf')))
 
-PAGE_WIDTH, PAGE_HEIGHT = A4
-ENVELOPE_WIDTH = 23*cm
-ENVELOPE_HEIGHT = 11.5*cm
-ENVELOPE_MARGIN_X = 2*cm
-ENVELOPE_MARGIN_Y = 2*cm
-WINDOW_WIDTH = 10.5*cm
-WINDOW_HEIGHT = 4.5*cm
-WINDOW_ORIGIN_X = PAGE_WIDTH - WINDOW_WIDTH - ENVELOPE_MARGIN_X
-WINDOW_ORIGIN_Y = PAGE_HEIGHT - ENVELOPE_HEIGHT + ENVELOPE_MARGIN_Y
-BODY_MARGIN = 2.5*cm
-BODY_ORIGIN_X = BODY_MARGIN
-BODY_ORIGIN_Y = BODY_MARGIN
-BODY_HEIGHT = PAGE_HEIGHT - ENVELOPE_HEIGHT - ENVELOPE_MARGIN_Y
-BODY_WIDTH = PAGE_WIDTH - 2 * BODY_MARGIN
+from reportlab.pdfbase.pdfmetrics import registerFontFamily
+registerFontFamily('Arial',
+                   normal='Arial',
+                   bold='Arial Bold',
+                   italic='Arial Italic',
+                   boldItalic='Arial Bold Italic')
+
+WINDOW_ORIGIN_X = 7*cm
+WINDOW_ORIGIN_Y = 3*cm
 
 class Command(BaseCommand):
     help = """Creates voter notifications. If no recipients file is given,
@@ -54,7 +61,7 @@ input file. Recipients are indicated by their unique IDs"""
                     '--all',
                     action='store_true',
                     dest='all',
-                    help='Create notifications for all participants',
+                    help='Create notifications for all establishments',
                 ),
         make_option('-i',
                     '--input',
@@ -75,47 +82,46 @@ input file. Recipients are indicated by their unique IDs"""
                     action='store',
                     type='string',
                     dest='destination_dir',
-                    help='destination directory for PDF files',
+                    help='destination directory for PDF file',
                 ),
+        make_option('-f',
+                    '--filename',
+                    action='store',
+                    type='string',
+                    dest='destination_filename',
+                    default='output.pdf',
+                    help='PDF file name',
+                ),        
     )
 
-    def make_notice(self, participant, mapping, notice_template,
-                    destination_dir=None):
-        mapping.update({
-            'unique_id': participant.unique_id.encode('utf-8'),
-            })
-        body = []
-        styles = getSampleStyleSheet()
-        styleN = styles['Normal']
-        styleN.fontName = 'Linux Libertine'
+    def layout_notice(self, establishment, notice_template, mapping,
+                      notices, window_style, style):
+        notices.append(Spacer(0, WINDOW_ORIGIN_Y))
+        address_window_text = '\n'.join([
+            establishment.establishment_type.name,
+            u"{0} ({1})".format(establishment.name,
+                                establishment.registry_number),
+            establishment.owner.name,
+            establishment.address.street_number,
+            establishment.address.zip_code,
+            establishment.address.city.name])       
+        address_window = Preformatted(address_window_text, window_style)
+        notices.append(address_window)
+        notices.append(Spacer(0, 2*cm))
         if notice_template is not None:
             notice = notice_template.safe_substitute(mapping)
             xmldoc = ET.fromstring(notice)
             for para in xmldoc.findall('para'):
                 para_str = ET.tostring(para, encoding="utf-8")
-                body.append(Paragraph(para_str, styleN))
-        destination_filename = participant.unique_id + ".pdf"
-        destination = destination_filename
-        if destination_dir:
-            destination = os.path.join(destination_dir, destination_filename)
-        c = canvas.Canvas(destination, pagesize=A4)
-        c.rect(WINDOW_ORIGIN_X, WINDOW_ORIGIN_Y, WINDOW_WIDTH, WINDOW_HEIGHT)
-        address_window = c.beginText()
-        c.setFont('Linux Libertine', 12)
-        address_window.setFont('Linux Libertine', 12)
-        address_window.setTextOrigin(WINDOW_ORIGIN_X + 0.5*cm,
-                                     WINDOW_ORIGIN_Y + WINDOW_HEIGHT - 0.5*cm)
-        address_window.textLine(participant.name)
-        address_window.textLine(participant.address.street_number)
-        address_window.textLine(participant.address.zip_code)
-        address_window.textLine(str(participant.address.city))
-        c.drawText(address_window)
-        f = Frame(BODY_ORIGIN_X, BODY_ORIGIN_Y, BODY_WIDTH, BODY_HEIGHT,
-                  showBoundary=0)
-        f.addFromList(body, c)
-        return c
-
+                notices.append(Paragraph(para_str, style))
+        notices.append(PageBreak())
+        return notices
+        
     def make_notices(self, args, options):
+        if django.get_version() >= '1.5':
+            write = partial(self.stdout.write, ending = '')
+        else:
+            write = self.stdout.write
         if options['template_file']:
             template_file = open(options['template_file'], 'r')
             template_contents = template_file.read()
@@ -123,26 +129,44 @@ input file. Recipients are indicated by their unique IDs"""
         else:
             notice_template = Template("")
         if options['all']:
-            participants = Establishment.objects.all()
+            establishments = Establishment.objects.all()
         elif options['input_file']:
-            with open(options['input_file'], 'r') as participants_file:
-                unique_ids = [x.rstrip() for x in participants_file.readlines()]
-                participants = Establishment.objects.filter(
+            with open(options['input_file'], 'r') as establishments_file:
+                unique_ids = [x.rstrip()
+                              for x in establishments_file.readlines()]
+                establishments = Establishment.objects.filter(
                     unique_id__in=unique_ids)
         else:
-            participants = Establishment.objects.filter(unique_id__in=args)
+            establishments = Establishment.objects.filter(unique_id__in=args)
 
-        for num_participant, participant in enumerate(participants):
-            notice = self.make_notice(participant,
-                                      {},
-                                      notice_template,
-                                      options['destination_dir'])
-            notice.save()
-            self.stdout.write("\r{0}".format(num_participant+1))
+        notices = []
+        styles = getSampleStyleSheet()
+        body_style = styles['Normal']
+        body_style.fontName = 'Arial'
+        body_style.fontSize = 10
+        body_style.spaceAfter = 10
+        window_style = copy.copy(body_style)
+        window_style.leftIndent = WINDOW_ORIGIN_X
+        if options['destination_dir']:
+            destination = os.path.join(options['destination_dir'],
+                                       options['destination_filename'])
+        else:
+            destination = options['destination_filename']
+        for num_establishment, establishment in enumerate(establishments):
+            mapping = {
+                'unique_id': establishment.unique_id.encode('utf-8'),
+            }
+            notices = self.layout_notice(establishment,
+                                         notice_template,
+                                         mapping,
+                                         notices,
+                                         window_style,
+                                         body_style)
+            write("\r{0}".format(num_establishment+1))
             self.stdout.flush()
-        self.stdout.write("")
-        self.stdout.write("{0}".format(num_participant+1))
-
+        doc = SimpleDocTemplate(destination, pagesize=A4)
+        doc.build(notices)
+        self.stdout.write("")        
 
     def handle(self, *args, **options):
         self.make_notices(args, options)

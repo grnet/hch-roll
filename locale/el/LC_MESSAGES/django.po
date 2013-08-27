@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-09 12:01+0300\n"
+"POT-Creation-Date: 2013-08-26 16:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,70 +18,90 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: roll/forms.py:9
-msgid "voter name"
-msgstr "Ονοματεπώνυμο Ψηφοφόρου"
+#: hch-roll/templates/404.html:2
+msgid "Page not found"
+msgstr ""
 
-#: roll/forms.py:10
+#: roll/forms.py:11
+msgid "unique id does not exist"
+msgstr "Ανύπαρκτος κωδικός"
+
+#: roll/forms.py:18
+msgid "registration unique id"
+msgstr "Εισάγετε τον κωδικό εγγραφής σας"
+
+#: roll/forms.py:34
+msgid "voter first name"
+msgstr "Όνομα Ψηφοφόρου"
+
+#: roll/forms.py:36
+msgid "voter surname"
+msgstr "Επώνυμο Ψηφοφόρου"
+
+#: roll/forms.py:37
 msgid "voter email"
 msgstr "Email"
 
-#: roll/forms.py:12
+#: roll/forms.py:39
 msgid "voter mobile phone"
 msgstr "Κινητό Τηλέφωνο"
 
-#: roll/models.py:102
+#: roll/models.py:112
 msgid "registry number"
 msgstr "Αριθμός Μητρώου"
 
-#: roll/models.py:104
+#: roll/models.py:114
 msgid "name"
-msgstr "Όνομα Καταλύμματος"
+msgstr "Όνομα Καταλύματος"
 
-#: roll/models.py:106
+#: roll/models.py:116
+msgid "establishment type"
+msgstr "Τύπος"
+
+#: roll/models.py:118
 msgid "address"
 msgstr "Διεύθυνση"
 
-#: roll/models.py:108
+#: roll/models.py:120
 msgid "rating"
 msgstr "Κατηγορία"
 
-#: roll/models.py:110
+#: roll/models.py:122
 msgid "operator"
 msgstr "Εκμεταλλευτής"
 
-#: roll/models.py:112
+#: roll/models.py:124
 msgid "owner"
-msgstr "Επιχειρηματίας"
+msgstr "Εκπρόσωπος ΕΟΤ"
 
-#: roll/models.py:113
+#: roll/models.py:125
 msgid "license"
 msgstr "Άδεια Λειτουργίας"
 
-#: roll/models.py:116
+#: roll/models.py:128
 msgid "fee payment"
 msgstr "Ταμειακή Ενημερότητα"
 
-#: roll/models.py:118
+#: roll/models.py:130
 msgid "telephone"
 msgstr "Τηλέφωνο"
 
-#: roll/models.py:120
+#: roll/models.py:132
 msgid "fax"
 msgstr "Fax"
 
-#: roll/models.py:121
+#: roll/models.py:133
 msgid "email"
 msgstr "Email"
 
-#: roll/models.py:124
+#: roll/models.py:136
 msgid "electoral group"
 msgstr "Εκλογική Ομάδα"
 
-#: roll/models.py:126
+#: roll/models.py:138
 msgid "voter"
 msgstr "Ψηφοφόρος"
 
-#: roll/models.py:128
+#: roll/models.py:140
 msgid "unique id"
 msgstr "Μοναδικός Αριθμός"

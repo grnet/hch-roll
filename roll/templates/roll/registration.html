@@ -5,19 +5,46 @@
 <form method="post" action="{{ form_action }}">
   {% csrf_token %}
   {{ form.non_field_errors }}
-  <fieldset>
-    <legend>Εγγραφή</legend>
+  <h1>Εγγραφή</h1>
+  <p>
+    Η παρακάτω φόρμα σας εγγράφει στους εκλογικούς καταλόγους των
+    εκλογών του ΞΕΕ 2013 που θα διεξαχθούν ηλεκτρονικά στις 22 &amp;
+    23 Σεπτεμβρίου 2013.
+  </p>
+  <p>
+    Παρακαλείσθε να συπληρώσετε προσεκτικά τα πεδία &laquo;Όνομα
+    Ψηφοφόρου&raquo; &laquo;Επώνυνο Ψηφοφόρου&raquo;
+    &laquo;Email&raquo;, &laquo;Κινητό Τηλέφωνο&laquo; και στη
+    συνέχεια προχωρήστε στην υποβολή.
+    </p>
+  <p>
+    Η διαδικασία της εγγραφής θα είναι ενεργή έως τις 17 Σεπτεμβρίου
+    2013. Απαραίτητη προυπόθεση για την συμμετοχή σας στη ψηφοφορία
+    είναι η τακτοποίηση των οφειλών σας έως την παραπάνω
+    ημερομηνία.</p>
+    <p>
+      Στους πιστοποιημένους εκλογείς θα αποσταλλεί στις 20 Σεπτεμβρίου
+      2013 email και sms στο κινητό με το σύνδεσμο της ψηφιακής κάλπης.</p>
+    <p>
+      Παρακαλούμε συμπληρώστε την παρακάτω φόρμα:
+    </p>
+        
     <div class="row">
       <div class="col-lg-6">
+        <fieldset>
+          <legend>Στοιχεία Μητρώου</legend>
         {% for field in form.non_voter_fields %}
           <div class="form-group">
             {{ field.errors }}
             <label for="{{ field.html_name }}">{{ field.label }}</label>
             {{ field }}
-          </div>
+            </div>
         {% endfor %}
-      </div>
+        </div>
+      </fieldset>
       <div class="col-lg-6">
+      <fieldset>
+        <legend>Στοιχεία Εγγραφής στον Εκλογικό Κατάλογο</legend>        
         {% for field in form.voter_fields %}
           <div class="form-group">
             {{ field.errors }}
@@ -25,10 +52,10 @@
             {{ field }}
           </div>
         {% endfor %}
+        <center>
+          <button type="submit" class="btn btn-default">Υποβολή</button>
+        </center>
       </div>
-      <center>
-        <button type="submit" class="btn btn-default">Υποβολή</button>
-      </center>
   </fieldset>
 </form>
 

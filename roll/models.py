@@ -36,7 +36,7 @@ class FeePayment(models.Model):
         db_table  = 'roll_fee_payment'
 
     def __unicode__(self):
-        return u"{0} {:%d/%m/%Y}".format(self.fee_paid, self.payment_date)
+        return u"{0} {1:%d/%m/%Y}".format(self.fee_paid, self.payment_date)
 
 
 class ElectoralGroup(models.Model):
@@ -60,14 +60,14 @@ class Prefecture(models.Model):
     region = models.ForeignKey(Region)
 
     def __unicode__(self):
-        return u"{0}".format(self.name, self.region)
+        return u"{0} {1}".format(self.name, self.region)
 
 class City(models.Model):
     name = models.CharField(max_length=200)
     prefecture = models.ForeignKey(Prefecture)
 
     def __unicode__(self):
-        return u"{0}".format(self.name, self.prefecture)
+        return u"{0} {1}".format(self.name, self.prefecture)
 
 class Island(models.Model):
     name = models.CharField(max_length=100)
@@ -84,24 +84,36 @@ class Address(models.Model):
 
     def __unicode__(self):
         return u"{0} {1} {2} {3} {4}".format(self.street_number,
-                                        self.zip_code,
-                                        self.city,
-                                        self.location,
-                                        self.island)
+                                             self.zip_code,
+                                             self.city,
+                                             self.location,
+                                             self.island)
 
 class Voter(models.Model):
-    name = models.CharField(max_length=200)
+    first_name = models.CharField(max_length=100)
+    surname = models.CharField(max_length=100)
     email = models.EmailField()
     mobile_phone = models.CharField(max_length=20)
 
     def __unicode__(self):
         return u"{0} {1} {2}".format(self.name, self.email, self.mobile_phone)
 
+class EstablishmentType(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return u"{0}".format(self.name)
+    
+    class Meta:
+        db_table  = 'roll_establishment_type'
+
 class Establishment(models.Model):
     registry_number = models.IntegerField(unique=True,
                                           verbose_name=_("registry number"))
     name = models.CharField(max_length=200,
                             verbose_name=_("name"))
+    establishment_type = models.ForeignKey(EstablishmentType,
+                                           verbose_name=_("establishment type"))
     address = models.ForeignKey(Address,
                                 verbose_name=_("address"))
     rating = models.ForeignKey(Rating,
@@ -126,8 +138,10 @@ class Establishment(models.Model):
                               verbose_name=_("voter"))
     unique_id = models.CharField(max_length=200, unique=True,
                                  verbose_name=_("unique id"))
-
+    
     def __unicode__(self):
-        return u"{0} {1} {2}".format(self.registry_number, self.name,
-                                  self.address)
+        return u"{0} {1} {2} {3}".format(self.registry_number,
+                                         self.name,
+                                         self.establishment_type,
+                                         self.address)
 
