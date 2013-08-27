@@ -5,7 +5,7 @@ from models import Establishment, Voter
 from forms import *
 
 def register_key(request):
-    request.session['django_language'] = 'el-gr'
+    request.session['django_language'] = 'el'
     if request.method == 'POST':
         form = RegistrationKeyForm(request.POST)
         if form.is_valid():
@@ -18,7 +18,7 @@ def register_key(request):
     })
 
 def register(request, unique_id=None):
-    request.session['django_language'] = 'el-gr'
+    request.session['django_language'] = 'el'
     establishment = None
     voter = None
     if unique_id:
