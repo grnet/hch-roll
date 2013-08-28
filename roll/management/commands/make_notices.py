@@ -69,7 +69,7 @@ input file. Recipients are indicated by their unique IDs"""
                     type='string',
                     dest='input_file',
                     help='set recipients file',
-                    ),
+                ),
         make_option('-t',
                     '--template',
                     action='store',
@@ -102,8 +102,8 @@ input file. Recipients are indicated by their unique IDs"""
             u"{0} ({1})".format(establishment.name,
                                 establishment.registry_number),
             establishment.owner.name,
-            establishment.address.street_number,
-            establishment.address.zip_code,
+            u"{0} {1}".format(establishment.address.street_number,
+                              establishment.address.zip_code),
             establishment.address.city.name])       
         address_window = Preformatted(address_window_text, window_style)
         notices.append(address_window)
