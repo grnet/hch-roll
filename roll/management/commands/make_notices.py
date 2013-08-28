@@ -102,7 +102,7 @@ input file. Recipients are indicated by their unique IDs"""
             u"{0} ({1})".format(establishment.name,
                                 establishment.registry_number),
             establishment.owner.name,
-            establishment.address.street_number            
+            establishment.address.street_number,
             u"{0} {1}".format(establishment.address.zip_code,
                               establishment.address.city.name)
         ])
