@@ -102,9 +102,10 @@ input file. Recipients are indicated by their unique IDs"""
             u"{0} ({1})".format(establishment.name,
                                 establishment.registry_number),
             establishment.owner.name,
-            u"{0} {1}".format(establishment.address.street_number,
-                              establishment.address.zip_code),
-            establishment.address.city.name])       
+            establishment.address.street_number            
+            u"{0} {1}".format(establishment.address.zip_code,
+                              establishment.address.city.name)
+        ])
         address_window = Preformatted(address_window_text, window_style)
         notices.append(address_window)
         notices.append(Spacer(0, 2*cm))
