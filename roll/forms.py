@@ -13,8 +13,8 @@ def unique_id_exists(unique_id):
 class RegistrationKeyForm(forms.Form):
 
     unique_id = forms.CharField(
-        min_length=36,
-        max_length=36,
+        min_length=19,
+        max_length=19,
         label=_('registration unique id'),
         validators=[unique_id_exists])
 
@@ -24,8 +24,6 @@ class RegistrationKeyForm(forms.Form):
             field.widget.attrs = {
                 'class': 'form-control',
             }
-
-        
     
 class RegistrationForm(forms.ModelForm):
     voter_first_name = forms.CharField(max_length=100,

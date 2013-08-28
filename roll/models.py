@@ -2,6 +2,11 @@ from django.db import models
 
 from django.utils.translation import ugettext_lazy as _
 
+import random
+import string
+
+random.seed()
+
 class Location(models.Model):
     name = models.CharField(max_length=200)
 
@@ -138,7 +143,23 @@ class Establishment(models.Model):
                               verbose_name=_("voter"))
     unique_id = models.CharField(max_length=200, unique=True,
                                  verbose_name=_("unique id"))
-    
+
+    @classmethod
+    def generate_random_id(cls):
+        pieces = [''.join(random.choice(string.digits) for x in range(4))
+                  for x in range(0, 4)]
+        return '-'.join(pieces)
+        
+    @classmethod
+    def generate_unique_id(cls):
+        unique_id = Establishment.generate_random_id()
+        while Establishment.objects.filter(unique_id=unique_id).exists():
+            unique_id = Establishment.generate_random_id()
+        return unique_id
+
+    def reset_unique_id(self):
+        self.unique_id = Establishment.generate_unique_id()
+        
     def __unicode__(self):
         return u"{0} {1} {2} {3}".format(self.registry_number,
                                          self.name,

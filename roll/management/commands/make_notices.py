@@ -45,8 +45,8 @@ registerFontFamily('Arial',
                    italic='Arial Italic',
                    boldItalic='Arial Bold Italic')
 
-WINDOW_ORIGIN_X = 7*cm
-WINDOW_ORIGIN_Y = 3*cm
+WINDOW_ORIGIN_X = 7.5*cm
+WINDOW_ORIGIN_Y = 2*cm
 
 class Command(BaseCommand):
     help = """Creates voter notifications. If no recipients file is given,
@@ -153,7 +153,7 @@ input file. Recipients are indicated by their unique IDs"""
         else:
             destination = options['destination_filename']
         establishments = establishments.order_by('registry_number')
-        for num_establishment, establishment in enumerate(establishments):
+        for num, establishment in enumerate(establishments):
             mapping = {
                 'unique_id': establishment.unique_id.encode('utf-8'),
             }
@@ -163,11 +163,11 @@ input file. Recipients are indicated by their unique IDs"""
                                          notices,
                                          window_style,
                                          body_style)
-            write("\r{0}".format(num_establishment+1))
+            write("\r{0}".format(num + 1))
             self.stdout.flush()
         doc = SimpleDocTemplate(destination, pagesize=A4)
         doc.build(notices)
-        self.stdout.write("")        
+        write("\n")        
 
     def handle(self, *args, **options):
         self.make_notices(args, options)

@@ -5,8 +5,6 @@ from roll.models import *
 from collections import namedtuple
 from datetime import datetime
 import csv
-import uuid
-
 import django
 
 from django.db import transaction
@@ -102,11 +100,11 @@ class Command(BaseCommand):
                 electoral_group=electoral_group,
             )
             if c:
-                establishment.unique_id = uuid.uuid4()
+                establishment.unique_id = Establishment.make_unique_id()
                 establishment.save()
                 write("\r{0}".format(line+1))
                 self.stdout.flush()            
-        self.stdout.write("")
+        write("\n")
 
     def handle(self, *args, **options):
         if len(args) != 1:
