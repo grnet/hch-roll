@@ -45,8 +45,8 @@ registerFontFamily('Arial',
                    italic='Arial Italic',
                    boldItalic='Arial Bold Italic')
 
-WINDOW_ORIGIN_X = 7.5*cm
-WINDOW_ORIGIN_Y = 2*cm
+WINDOW_ORIGIN_X = 8.5*cm
+WINDOW_ORIGIN_Y = 2.5*cm
 
 class Command(BaseCommand):
     help = """Creates voter notifications. If no recipients file is given,
@@ -75,6 +75,7 @@ input file. Recipients are indicated by their unique IDs"""
                     action='store',
                     type='string',
                     dest='template_file',
+                    default='body.xml',
                     help='template file for document content',
                 ),
         make_option('-d',
@@ -153,7 +154,8 @@ input file. Recipients are indicated by their unique IDs"""
                                        options['destination_filename'])
         else:
             destination = options['destination_filename']
-        establishments = establishments.order_by('registry_number')
+        establishments = establishments.order_by('address__zip_code',
+                                                 'registry_number')
         for num, establishment in enumerate(establishments):
             mapping = {
                 'unique_id': establishment.unique_id.encode('utf-8'),
