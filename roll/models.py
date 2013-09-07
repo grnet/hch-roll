@@ -101,7 +101,10 @@ class Voter(models.Model):
     mobile_phone = models.CharField(max_length=20)
 
     def __unicode__(self):
-        return u"{0} {1} {2}".format(self.name, self.email, self.mobile_phone)
+        return u"{0} {1} {2} {3}".format(self.first_name,
+                                         self.surname,
+                                         self.email,
+                                         self.mobile_phone)
 
 class EstablishmentType(models.Model):
     name = models.CharField(max_length=100)
