@@ -48,7 +48,9 @@
         {% for field in form.voter_fields %}
           <div class="form-group">
             {{ field.errors }}
-            <label for="{{ field.html_name }}">{{ field.label }}</label>
+            <label for="{{ field.html_name }}" class="registration-label">
+              {{ field.label }}
+            </label>
             {{ field }}
           </div>
         {% endfor %}

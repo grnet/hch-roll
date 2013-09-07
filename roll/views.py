@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from models import Establishment, Voter
 
@@ -22,7 +22,8 @@ def register(request, unique_id=None):
     establishment = None
     voter = None
     if unique_id:
-        establishment = Establishment.objects.get(unique_id=unique_id)
+        establishment = get_object_or_404(Establishment,
+                                          unique_id=unique_id)
         if establishment.voter_id:
             voter = establishment.voter
         else:

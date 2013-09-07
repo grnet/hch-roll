@@ -76,7 +76,7 @@ msgstr "Εκμεταλλευτής"
 
 #: roll/models.py:124
 msgid "owner"
-msgstr "Εκπρόσωπος ΕΟΤ"
+msgstr "Εκπρόσωπος Όπως Αναφέρεται στο Ειδικό Σήμα Λειτουργίας"
 
 #: roll/models.py:125
 msgid "license"

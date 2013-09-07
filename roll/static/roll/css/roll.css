@@ -6,9 +6,9 @@ body {
 /* The html and body elements cannot have any padding or margin. */
 }
 
-/* Wrapper for page content to push down footer */
+/*Wrapper for page content to push down footer */
 #wrap {
-    min-height: 100%;
+    min-height: 80%;
     height: auto !important;
     height: 100%;
     /* Negative indent footer by its height */
@@ -16,12 +16,8 @@ body {
 }
 
 /* Set the fixed height of the footer here */
-#push,
-#footer {
+#push { 
     height: 60px;
-}
-#footer {
-    background-color: #f5f5f5;
 }
 
 /* Lastly, apply responsive CSS fixes as necessary */
@@ -36,8 +32,9 @@ body {
 
 
 /* Custom page CSS
-   -------------------------------------------------- */
-/* Not required for template or sticky footer method. */
+   --------------------------------------------------
+Not required for template or sticky footer method.
+*/
 
 #wrap > .container {
     padding-top: 60px;
@@ -52,4 +49,301 @@ body {
 
 .declaration p {
     margin-bottom: 20px;
+}
+
+.registration-label {
+    color: crimson;
+}
+
+/* ---------------------------------------------------------------------- */
+/*	Header                                                            */
+/* ---------------------------------------------------------------------- */
+
+#header {
+    border-bottom: 2px solid #ad8500;
+    height: 86px;
+    z-index: 97;
+}
+
+#logo {
+    float: left;
+    height: 86px;
+}
+
+/* -------------------------------------------------- */
+/*	Main Navigation                               */
+/* -------------------------------------------------- */
+
+#main-nav { float: right; }
+
+#main-nav > ul { margin: -6px 0 0; }
+
+#main-nav li {
+    list-style: none;
+    float: left;
+    margin: 0;
+    position: relative;
+}
+
+#main-nav a {
+    border-bottom: 1px solid transparent;
+    border-top: 6px solid transparent;
+    color: #3a3a3a;
+    font-family: 'Open Sans', 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    display: block;
+    letter-spacing: -0.08px;
+    padding: 26px 20px 40px;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
+    z-index: 98;
+}
+
+.ie7 #main-nav a { padding: 33px 20px; }
+
+#main-nav a:after {
+    color: #aeaeae;
+    content: attr(data-description);
+    font-size: 11px;
+    font-style: italic;
+    font-weight: 400;
+    display: block;
+    line-height: 0;
+    margin: 3px 0 -3px;
+    text-align: center;
+    text-transform: lowercase;
+}
+
+#main-nav a:hover, #main-nav .hover > a, #main-nav .current > a {
+    border-bottom-color: #bf1e2e;
+    border-top-color: #bf1e2e;
+    color: #bf1e2e;
+}
+
+#main-nav a:hover, #main-nav .hover > a, #main-nav .current > a {
+    background: #f8f8f8;
+}
+
+.not-ie #main-nav .current:after {
+    background: #bf1e2e;
+    bottom: -2.5px;
+    content: '';
+    left: 50%;
+    display: block;
+    height: 5px;
+    margin: 0 0 0 -2.5px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    position: absolute;
+    width: 5px;
+}
+
+/* Dropdown */
+
+.no-js #main-nav li:hover > ul {
+    display: block;
+    top: 92px;
+}
+
+#main-nav ul ul {
+    background: #3a3a3a;
+    -webkit-box-shadow: 2.5px 2.5px 5px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 2.5px 2.5px 5px rgba(0, 0, 0, .2);
+    box-shadow: 2.5px 2.5px 5px rgba(0, 0, 0, .2);
+    display: none;
+    left: 0;
+    padding: 0;
+    position: absolute;
+    top: 92px;
+    width: 200px;
+    z-index: 99;
+}
+
+#main-nav ul ul li { float: none; }
+
+#main-nav ul ul a {
+    border: 0;
+    border-bottom: 1px solid #252525;
+    border-top: 1px solid #4c4c4c;
+    color: #fff;
+    display: block;
+    font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0;
+    font-weight: 400;
+    padding: 8px 20px !important;
+    text-align: left;
+    text-transform: none;
+}
+
+#main-nav ul ul a:hover, #main-nav ul ul .hover > a, #main-nav ul ul .current > a, #main-nav ul ul .current > a:hover  {
+    background: #bf1e2e;
+    color: #fff;
+}
+
+.not-ie #main-nav ul ul .current:after { display: none; }
+
+/* Sub Dropdown */
+
+#main-nav ul ul ul {
+    left: 200px !important;
+    top: 0 !important;
+}
+
+/* Responsive Nav */
+
+#main-nav .responsive-nav {
+    background-image: url(../img/responsive-nav-bg.png);
+    background-position: center right;
+    background-repeat: no-repeat;
+    display: none;
+    width: 100%;
+}
+
+/* ---------------------------------------------------------------------- */
+/*	Footer                                                            */
+/* ---------------------------------------------------------------------- */
+
+#footer {
+    background: #3a3a3a;
+    color: #868686;
+    margin-top: 50px;
+    padding: 35px 0 30px;
+    position: relative;
+}
+
+.not-ie #footer:before {
+    background: #fff;
+    content: '';
+    left: 50%;
+    display: block;
+    height: 15px;
+    margin: 0 0 0 -7.5px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    position: absolute;
+    top: -8px;
+    width: 15px;
+}
+
+x:-o-prefocus, .not-ie #footer:before { display: none; } /* Fix for Opera */
+
+#footer, #footer a, #footer-bottom, #footer-bottom a { color: #868686; }
+
+#footer a:hover, #footer-bottom a:hover { color: #bf1e2e; }
+
+#footer .title {
+    border-bottom: 1px solid #4b4b4b;
+    display: block;
+    font-size: 10px;
+    margin: 0 0 12px;
+    padding: 0 0 12px;
+    text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------------- */
+/*	Footer Bottom                                                     */
+/* ---------------------------------------------------------------------- */
+
+#footer-bottom {
+    background: #303030;
+    line-height: 17px;
+    padding: 12px 0;
+}
+
+#footer-bottom ul { margin: 0; }
+
+#footer-bottom li {
+    float: left;
+    list-style: none;
+    margin: 0;
+}
+			
+#footer-bottom li:first-child { margin-right: 15px; }
+			
+#footer-bottom li a {
+    border-left: 1px solid #484848;
+    display: block;
+    padding: 0 15px;
+}
+
+#footer-bottom li:first-child a {
+    border-left: none;
+    padding-left: 0;
+}
+
+#footer-bottom li:last-child a { padding-right: 0; }
+
+/* -------------------------------------------------- */
+/*	Footer Navigation                             */
+/* -------------------------------------------------- */
+
+#footer-nav {
+    border-bottom: 1px solid #4b4b4b;
+    margin: 0 0 12px;
+    padding: 0 0 12px;
+}
+
+#footer-nav ul { margin: 0; }
+
+#footer-nav li {
+    background: none;
+    border: none;
+    display: inline-block;
+    list-style: none;
+    margin: 0 -3px 0 0;
+}
+
+.ie7 #footer-nav li { display: inline; }
+
+#footer-nav li a {
+    border-left: 1px solid #484848;
+    font-size: 10px;
+    display: block;
+    padding: 0 15px;
+    text-transform: uppercase;
+}
+
+#footer-nav li:first-child a {
+    border-left: none;
+    padding-left: 0;
+}
+
+#footer-nav li:last-child a { padding-right: 0; }
+
+	/* -------------------------------------------------- */
+	/*	Contact Info
+	/* -------------------------------------------------- */
+
+#footer .contact-info {}
+
+.contact-info { margin: 0; }
+
+.contact-info li {
+    float: left;
+    list-style: none;
+    margin: 0 0 5px 24px;
+    padding: 0 0 0 24px;
+}
+
+.contact-info li:first-child { margin-left: 0; }
+
+.contact-info .address {
+    background: url(../img/icon-address.png) no-repeat 0 0;
+}
+
+.contact-info .phone {
+    background: url(../img/icon-phone.png) no-repeat 0 1px;
+}
+
+.contact-info .email {
+    background: url(../img/icon-email-2.png) no-repeat 0 4px;
 }

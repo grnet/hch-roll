@@ -18,7 +18,7 @@ class Rating(models.Model):
     position = models.IntegerField()
 
     def __unicode__(self):
-        return u"{0} {1}".format(self.name, self.position)
+        return u"{0}".format(self.name)
 
 class Operator(models.Model):
     name = models.CharField(max_length=200)
