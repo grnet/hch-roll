@@ -7,6 +7,8 @@ from datetime import datetime
 import csv
 import django
 
+from functools import partial
+
 from django.db import transaction
 
 ROW_HEADERS = [
@@ -52,8 +54,7 @@ class Command(BaseCommand):
             location, c = Location.objects.get_or_create(name=row.location)
             establishment_type, c = EstablishmentType.objects.get_or_create(
                 name=row.establishment_type)
-            rating, c = Rating.objects.get_or_create(name=row.rating,
-                                                     position=0)
+            rating, c = Rating.objects.get_or_create(name=row.rating)
             operator, c = Operator.objects.get_or_create(name=row.operator)
             owner, c = Owner.objects.get_or_create(name=row.owner)
             license = row.license
@@ -100,7 +101,7 @@ class Command(BaseCommand):
                 electoral_group=electoral_group,
             )
             if c:
-                establishment.unique_id = Establishment.make_unique_id()
+                establishment.unique_id = Establishment.generate_unique_id()
                 establishment.save()
                 write("\r{0}".format(line+1))
                 self.stdout.flush()            
