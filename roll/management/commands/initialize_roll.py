@@ -54,7 +54,8 @@ class Command(BaseCommand):
             location, c = Location.objects.get_or_create(name=row.location)
             establishment_type, c = EstablishmentType.objects.get_or_create(
                 name=row.establishment_type)
-            rating, c = Rating.objects.get_or_create(name=row.rating)
+            rating, c = Rating.objects.get_or_create(name=row.rating,
+                                                     position=0)
             operator, c = Operator.objects.get_or_create(name=row.operator)
             owner, c = Owner.objects.get_or_create(name=row.owner)
             license = row.license
