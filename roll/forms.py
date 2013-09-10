@@ -64,7 +64,7 @@ class RegistrationForm(forms.ModelForm):
             id=self.instance.owner_id)
         self.fields['electoral_group'].queryset = ElectoralGroup.objects.filter(
             id=self.instance.electoral_group_id)
-
+    
     def voter_fields(self):
         return [field for field in self.visible_fields()
                 if field.name in RegistrationForm.voter_field_names ]
@@ -72,7 +72,7 @@ class RegistrationForm(forms.ModelForm):
     def non_voter_fields(self):
         return [field for field in self.visible_fields()
                 if field.name not in RegistrationForm.voter_field_names ]
-
+            
     class Meta:
         model = Establishment
         exclude = ('license', 'unique_id', 'fee_payment', 'voter',)

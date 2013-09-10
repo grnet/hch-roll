@@ -135,10 +135,12 @@ class Establishment(models.Model):
                                     related_name='fee_payment',
                                     verbose_name=_("fee payment"))
     telephone = models.CharField(max_length=20,
-                                 verbose_name=_("telephone"))
+                                 verbose_name=_("telephone"),
+                                 blank=True)
     fax = models.CharField(max_length=20,
-                           verbose_name=_("fax"))
-    email = models.EmailField(verbose_name=_("email"))
+                           verbose_name=_("fax"),
+                           blank=True)
+    email = models.EmailField(verbose_name=_("email"), blank=True)
     electoral_group = models.ForeignKey(ElectoralGroup,
                                         related_name='electoral_group',
                                         verbose_name=_("electoral group"))
