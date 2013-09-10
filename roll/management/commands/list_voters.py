@@ -1,3 +1,6 @@
+ #!/usr/bin/python
+ # -*- coding: utf-8 -*-
+
 from django.core.management.base import BaseCommand, CommandError
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -6,12 +9,41 @@ from roll.models import Voter
 import sys
 import csv
 
+ROW_HEADER = [
+    'AM',
+    'ΤΙΤΛΟΣ',
+    'ΓΕΩΓΡΑΦΙΚΗ ΠΕΡΙΟΧΗ',
+    'ΤΥΠΟΣ',
+    'ΤΑΞΗ',
+    'ΕΚΜΕΤΑΛΛΕΥΤΗΣ',
+    'ΕΠΙΧ/ΤΙΑΣ',
+    'ΑΔ.ΛΕΙΤΟΥΡΓΕΙΑΣ',
+    'ΤΑΜ. ΕΝΗΜΕΡΟΣ',
+    'ΗΜΕΡ. ΤΑΜ. ΕΝΗΜΕΡΟΤΗΤΑΣ',
+    'ΤΗΛΕΦΩΝΟ',
+    'FAX',
+    'EMAIL',
+    'ΕΚΛ. ΟΜΑΔΑ',
+    'ΠΕΡΙΓΡΑΦΗ ΕΚΛ. ΟΜΑΔΑΣ',
+    'ΝΟΜΟΣ',
+    'ΔΙΑΜΕΡΙΣΜΑ',
+    'NΗΣΙ',
+    'ΔΙΕΥΘΥΝΣΗ',
+    'ΤΚ',
+    'ΠΟΛΗ',
+    'ΟΝΟΜΑ ΨΗΦΟΦΟΡΟΥ',
+    'ΕΠΩΝΥΜΟ ΨΗΦΟΦΟΡΟΥ',
+    'EMAIL ΨΗΦΟΦΟΡΟΥ',
+    'ΤΗΛΕΦΩΝΟ ΨΗΦΟΦΟΡΟΥ',
+]
+
 class Command(BaseCommand):
     help = """Shows list of voters"""
         
     def list_voters(self, args, options):
         voters = Voter.objects.all()
         voter_writer = csv.writer(sys.stdout)
+        voter_writer.writerow(ROW_HEADER)
         for voter in voters:
             for establishment in voter.establishment_set.all():
                 row = [
@@ -41,7 +73,6 @@ class Command(BaseCommand):
                     voter.email,
                     voter.mobile_phone
                 ]
-                print row
                 urow = [c.encode('utf-8') if isinstance(c, basestring) else c
                         for c in row ]
                 voter_writer.writerow(urow)

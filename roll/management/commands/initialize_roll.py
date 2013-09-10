@@ -11,7 +11,7 @@ from functools import partial
 
 from django.db import transaction
 
-ROW_HEADERS = [
+ROW_HEADER = [
     'registry_number',
     'name',
     'location',
@@ -45,7 +45,7 @@ class Command(BaseCommand):
             write = partial(self.stdout.write, ending = '')
         else:
             write = self.stdout.write
-        RollRow = namedtuple('RollRow', ROW_HEADERS)
+        RollRow = namedtuple('RollRow', ROW_HEADER)
         for line, row in enumerate(
                 map(lambda r: RollRow._make([s.decode('utf-8') for s in r]),
                     csv.reader(open(datafile, 'rb')))):
