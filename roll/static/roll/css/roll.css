@@ -16,8 +16,13 @@ body {
 }
 
 /* Set the fixed height of the footer here */
-#push { 
+#push,
+#footer { 
     height: 60px;
+}
+
+#footer {
+    background-color: #f5f5f5;
 }
 
 /* Lastly, apply responsive CSS fixes as necessary */
@@ -205,145 +210,3 @@ Not required for template or sticky footer method.
     width: 100%;
 }
 
-/* ---------------------------------------------------------------------- */
-/*	Footer                                                            */
-/* ---------------------------------------------------------------------- */
-
-#footer {
-    background: #3a3a3a;
-    color: #868686;
-    margin-top: 50px;
-    padding: 35px 0 30px;
-    position: relative;
-}
-
-.not-ie #footer:before {
-    background: #fff;
-    content: '';
-    left: 50%;
-    display: block;
-    height: 15px;
-    margin: 0 0 0 -7.5px;
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    transform: rotate(45deg);
-    position: absolute;
-    top: -8px;
-    width: 15px;
-}
-
-x:-o-prefocus, .not-ie #footer:before { display: none; } /* Fix for Opera */
-
-#footer, #footer a, #footer-bottom, #footer-bottom a { color: #868686; }
-
-#footer a:hover, #footer-bottom a:hover { color: #bf1e2e; }
-
-#footer .title {
-    border-bottom: 1px solid #4b4b4b;
-    display: block;
-    font-size: 10px;
-    margin: 0 0 12px;
-    padding: 0 0 12px;
-    text-transform: uppercase;
-}
-
-/* ---------------------------------------------------------------------- */
-/*	Footer Bottom                                                     */
-/* ---------------------------------------------------------------------- */
-
-#footer-bottom {
-    background: #303030;
-    line-height: 17px;
-    padding: 12px 0;
-}
-
-#footer-bottom ul { margin: 0; }
-
-#footer-bottom li {
-    float: left;
-    list-style: none;
-    margin: 0;
-}
-			
-#footer-bottom li:first-child { margin-right: 15px; }
-			
-#footer-bottom li a {
-    border-left: 1px solid #484848;
-    display: block;
-    padding: 0 15px;
-}
-
-#footer-bottom li:first-child a {
-    border-left: none;
-    padding-left: 0;
-}
-
-#footer-bottom li:last-child a { padding-right: 0; }
-
-/* -------------------------------------------------- */
-/*	Footer Navigation                             */
-/* -------------------------------------------------- */
-
-#footer-nav {
-    border-bottom: 1px solid #4b4b4b;
-    margin: 0 0 12px;
-    padding: 0 0 12px;
-}
-
-#footer-nav ul { margin: 0; }
-
-#footer-nav li {
-    background: none;
-    border: none;
-    display: inline-block;
-    list-style: none;
-    margin: 0 -3px 0 0;
-}
-
-.ie7 #footer-nav li { display: inline; }
-
-#footer-nav li a {
-    border-left: 1px solid #484848;
-    font-size: 10px;
-    display: block;
-    padding: 0 15px;
-    text-transform: uppercase;
-}
-
-#footer-nav li:first-child a {
-    border-left: none;
-    padding-left: 0;
-}
-
-#footer-nav li:last-child a { padding-right: 0; }
-
-	/* -------------------------------------------------- */
-	/*	Contact Info
-	/* -------------------------------------------------- */
-
-#footer .contact-info {}
-
-.contact-info { margin: 0; }
-
-.contact-info li {
-    float: left;
-    list-style: none;
-    margin: 0 0 5px 24px;
-    padding: 0 0 0 24px;
-}
-
-.contact-info li:first-child { margin-left: 0; }
-
-.contact-info .address {
-    background: url(../img/icon-address.png) no-repeat 0 0;
-}
-
-.contact-info .phone {
-    background: url(../img/icon-phone.png) no-repeat 0 1px;
-}
-
-.contact-info .email {
-    background: url(../img/icon-email-2.png) no-repeat 0 4px;
-}
