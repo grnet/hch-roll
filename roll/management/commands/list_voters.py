@@ -45,7 +45,7 @@ class Command(BaseCommand):
         voter_writer = csv.writer(sys.stdout)
         voter_writer.writerow([h.encode('utf-8') for h in ROW_HEADER])
         for voter in voters:
-            for establishment in voter.establishment_set.all():
+            for establishment in voter.establishment_set.select_related().all():
                 row = [
                     establishment.registry_number,
                     establishment.name,
