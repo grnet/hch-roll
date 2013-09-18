@@ -10,6 +10,8 @@ from collections import defaultdict
 
 import sys
 import csv
+import django
+import re
 
 VOTER_MAPPING = {
     (1, '5*****'): 1,
@@ -79,11 +81,19 @@ VOTER_BALLOTS = defaultdict(list)
 class Command(BaseCommand):
     help = """Extracts voters files"""
         
+    def writenl(self, arg):
+        self.stdout.write(arg)
+        self.stdout.write("\n")
+
     def list_voters(self, args, options):
+        if django.get_version() >= '1.5':
+            write = self.stdout.write
+        else:
+            write = self.writenl
         establishments = Establishment.objects.select_related('voter',
                                                               'rating').filter(
             voter_id__isnull=False)
-                                                              
+
         for establishment in establishments:
             row = [
                 establishment.registry_number,
@@ -91,17 +101,17 @@ class Command(BaseCommand):
                 establishment.voter.first_name,
                 establishment.voter.surname,
                 establishment.name,
-                establishment.voter.mobile_phone
+                re.sub("[^0-9]", "", establishment.voter.mobile_phone),
             ]
-            urow = [c.encode('utf-8') if isinstance(c, basestring) else c
-                    for c in row ]
             rating = establishment.rating.name
             key = (establishment.electoral_group.code, rating)
             if key not in VOTER_MAPPING:
-                self.stdout.write(u"{0},{1},{2}".format(key[0], key[1],
-                                                        establishment))
+                write("{0},{1},{2}".format(key[0], key[1].encode('utf-8'), establishment))
             else:
                 ballot = VOTER_MAPPING[key]
+		row.extend(key)
+                urow = [c.encode('utf-8') if isinstance(c, basestring) else c
+                       for c in row ]
                 VOTER_BALLOTS[ballot].append(urow)
         for ballot in sorted(VOTER_BALLOTS.keys()):
             with open("ballot_{0}.csv".format(ballot), 'wb') as ballot_file:
