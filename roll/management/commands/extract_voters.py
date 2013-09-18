@@ -76,6 +76,15 @@ VOTER_MAPPING = {
     (12, u"Ε'ΤΑΞΗΣ"): 31,
 }
 
+RATINGS_MAPPING = {
+    u"ΠΟΛΥΤΕΛΕΙΑΣ": "5*****",
+    u"Α'ΤΑΞΗΣ": "4****",
+    u"Β'ΤΑΞΗΣ": "3***",
+    u"Γ'ΤΑΞΗΣ": "2**",
+    u"Δ'ΤΑΞΗΣ": "1*",
+    u"Ε'ΤΑΞΗΣ": "1*",
+}
+
 VOTER_BALLOTS = defaultdict(list)
 
 class Command(BaseCommand):
@@ -103,8 +112,11 @@ class Command(BaseCommand):
                 establishment.name,
                 re.sub("[^0-9]", "", establishment.voter.mobile_phone),
             ]
+            electoral_group_code = establishment.electoral_group.code
             rating = establishment.rating.name
-            key = (establishment.electoral_group.code, rating)
+            if electoral_group_code != 12 and rating.find("*") == -1:
+                rating = RATINGS_MAPPING[rating]
+            key = (electoral_group_code, rating)
             if key not in VOTER_MAPPING:
                 write("{0},{1},{2}".format(key[0], key[1].encode('utf-8'),
                                            establishment))
