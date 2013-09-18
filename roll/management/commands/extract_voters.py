@@ -85,7 +85,7 @@ class Command(BaseCommand):
         self.stdout.write(arg)
         self.stdout.write("\n")
 
-    def list_voters(self, args, options):
+    def extract_voters(self, args, options):
         if django.get_version() >= '1.5':
             write = self.stdout.write
         else:
@@ -121,7 +121,7 @@ class Command(BaseCommand):
                     ballot_writer.writerow(voter)
 
     def handle(self, *args, **options):
-        self.list_voters(args, options)
+        self.extract_voters(args, options)
 
 
 
