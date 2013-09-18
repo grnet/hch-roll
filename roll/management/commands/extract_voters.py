@@ -98,13 +98,13 @@ class Command(BaseCommand):
             rating = establishment.rating.name
             key = (establishment.electoral_group.code, rating)
             if key not in VOTER_MAPPING:
-                self.stdout.write(u"{0} {1} {2}".format(key[0], key[1],
+                self.stdout.write(u"{0},{1},{2}".format(key[0], key[1],
                                                         establishment))
             else:
                 ballot = VOTER_MAPPING[key]
                 VOTER_BALLOTS[ballot].append(urow)
         for ballot in sorted(VOTER_BALLOTS.keys()):
-            with open("ballot_{0}.csv ".format(ballot), 'wb') as ballot_file:
+            with open("ballot_{0}.csv".format(ballot), 'wb') as ballot_file:
                 ballot_writer = csv.writer(ballot_file)
                 for voter in VOTER_BALLOTS[ballot]:
                     ballot_writer.writerow(voter)
