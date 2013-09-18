@@ -10,31 +10,31 @@ import sys
 import csv
 
 ROW_HEADER = [
-    'AM',
-    'ΤΙΤΛΟΣ',
-    'ΓΕΩΓΡΑΦΙΚΗ ΠΕΡΙΟΧΗ',
-    'ΤΥΠΟΣ',
-    'ΤΑΞΗ',
-    'ΕΚΜΕΤΑΛΛΕΥΤΗΣ',
-    'ΕΠΙΧ/ΤΙΑΣ',
-    'ΑΔ.ΛΕΙΤΟΥΡΓΕΙΑΣ',
-    'ΤΑΜ. ΕΝΗΜΕΡΟΣ',
-    'ΗΜΕΡ. ΤΑΜ. ΕΝΗΜΕΡΟΤΗΤΑΣ',
-    'ΤΗΛΕΦΩΝΟ',
-    'FAX',
-    'EMAIL',
-    'ΕΚΛ. ΟΜΑΔΑ',
-    'ΠΕΡΙΓΡΑΦΗ ΕΚΛ. ΟΜΑΔΑΣ',
-    'ΝΟΜΟΣ',
-    'ΔΙΑΜΕΡΙΣΜΑ',
-    'NΗΣΙ',
-    'ΔΙΕΥΘΥΝΣΗ',
-    'ΤΚ',
-    'ΠΟΛΗ',
-    'ΟΝΟΜΑ ΨΗΦΟΦΟΡΟΥ',
-    'ΕΠΩΝΥΜΟ ΨΗΦΟΦΟΡΟΥ',
-    'EMAIL ΨΗΦΟΦΟΡΟΥ',
-    'ΤΗΛΕΦΩΝΟ ΨΗΦΟΦΟΡΟΥ',
+    u'AM',
+    u'ΤΙΤΛΟΣ',
+    u'ΓΕΩΓΡΑΦΙΚΗ ΠΕΡΙΟΧΗ',
+    u'ΤΥΠΟΣ',
+    u'ΤΑΞΗ',
+    u'ΕΚΜΕΤΑΛΛΕΥΤΗΣ',
+    u'ΕΠΙΧ/ΤΙΑΣ',
+    u'ΑΔ.ΛΕΙΤΟΥΡΓΕΙΑΣ',
+    u'ΤΑΜ. ΕΝΗΜΕΡΟΣ',
+    u'ΗΜΕΡ. ΤΑΜ. ΕΝΗΜΕΡΟΤΗΤΑΣ',
+    u'ΤΗΛΕΦΩΝΟ',
+    u'FAX',
+    u'EMAIL',
+    u'ΕΚΛ. ΟΜΑΔΑ',
+    u'ΠΕΡΙΓΡΑΦΗ ΕΚΛ. ΟΜΑΔΑΣ',
+    u'ΝΟΜΟΣ',
+    u'ΔΙΑΜΕΡΙΣΜΑ',
+    u'NΗΣΙ',
+    u'ΔΙΕΥΘΥΝΣΗ',
+    u'ΤΚ',
+    u'ΠΟΛΗ',
+    u'ΟΝΟΜΑ ΨΗΦΟΦΟΡΟΥ',
+    u'ΕΠΩΝΥΜΟ ΨΗΦΟΦΟΡΟΥ',
+    u'EMAIL ΨΗΦΟΦΟΡΟΥ',
+    u'ΤΗΛΕΦΩΝΟ ΨΗΦΟΦΟΡΟΥ',
 ]
 
 class Command(BaseCommand):
@@ -43,7 +43,7 @@ class Command(BaseCommand):
     def list_voters(self, args, options):
         voters = Voter.objects.all()
         voter_writer = csv.writer(sys.stdout)
-        voter_writer.writerow(ROW_HEADER)
+        voter_writer.writerow([h.encode('utf-8') for h in ROW_HEADER])
         for voter in voters:
             for establishment in voter.establishment_set.all():
                 row = [
