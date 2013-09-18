@@ -106,7 +106,8 @@ class Command(BaseCommand):
             rating = establishment.rating.name
             key = (establishment.electoral_group.code, rating)
             if key not in VOTER_MAPPING:
-                write("{0},{1},{2}".format(key[0], key[1].encode('utf-8'), establishment))
+                write("{0},{1},{2}".format(key[0], key[1].encode('utf-8'),
+                                           establishment))
             else:
                 ballot = VOTER_MAPPING[key]
 		row.extend(key)
