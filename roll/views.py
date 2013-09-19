@@ -10,16 +10,16 @@ from django.conf import settings
 
 from datetime import datetime
 
-REGISTRATION_END = datetime.strptime(settings.REGISTRATION_END,
-                                     "%Y-%m-%dT%H:%M:%S")
-
+REGISTRATION_END = None
+if hasattr(settings, 'REGISTRATION_END'):
+    REGISTRATION_END = datetime.strptime(settings.REGISTRATION_END,
+                                         "%Y-%m-%dT%H:%M:%S")
 def registration_active(f):
     @wraps(f)
     def wrapper(request, *args, **kwargs):
-        if datetime.now() > REGISTRATION_END:
+        if REGISTRATION_END is not None and datetime.now() > REGISTRATION_END:
             return redirect('registration_closed')
         else:
-            print datetime.now(), REGISTRATION_END
             return f(request, *args, **kwargs)
     return wrapper
 
