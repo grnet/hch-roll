@@ -4,6 +4,26 @@ from models import Establishment, Voter
 
 from forms import *
 
+from functools import wraps
+
+from django.conf import settings
+
+from datetime import datetime
+
+REGISTRATION_END = datetime.strptime(settings.REGISTRATION_END,
+                                     "%Y-%m-%dT%H:%M:%S")
+
+def registration_active(f):
+    @wraps(f)
+    def wrapper(request, *args, **kwargs):
+        if datetime.now() > REGISTRATION_END:
+            return redirect('registration_closed')
+        else:
+            print datetime.now(), REGISTRATION_END
+            return f(request, *args, **kwargs)
+    return wrapper
+
+@registration_active
 def register_key(request):
     request.session['django_language'] = 'el'
     if request.method == 'POST':
@@ -17,6 +37,7 @@ def register_key(request):
         'form': form,
     })
 
+@registration_active
 def register(request, unique_id=None):
     request.session['django_language'] = 'el'
     establishment = None
@@ -70,5 +91,11 @@ def register(request, unique_id=None):
         'form_action': request.path,
     })
 
+@registration_active
 def register_thanks(request, unique_id=None):
-        return render(request, 'roll/thanks.html')
+    return render(request, 'roll/thanks.html')
+        
+def registration_closed(request):
+    return render(request, 'roll/registration_closed.html', {
+        'registration_end': REGISTRATION_END,
+    })
