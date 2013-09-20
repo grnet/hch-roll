@@ -54,6 +54,8 @@ class Command(BaseCommand):
         for line, row in enumerate(
                 map(lambda r: RollRow._make([s.decode('utf-8') for s in r]),
                     csv.reader(open(datafile, 'rb')))):
+            if line == 0:
+                continue
             registry_number = row.registry_number
             name = row.name
             location, c = Location.objects.get_or_create(name=row.location)
@@ -108,13 +110,16 @@ class Command(BaseCommand):
             if c:
                 establishment.unique_id = Establishment.generate_unique_id()
             if establishment.voter_id is None:
-                voter = Voter(first_name = row.voter_first_name,
-                              surname=row.voter_surname,
-                              email=row.voter_email,
-                              mobile_phone=re.sub("[^0-9]", "",
-                                                  row.voter_mobile_phone))
-                voter.save()
-                establishment.voter = voter
+                voter = Voter()
+            else:
+                voter = establishment.voter
+            voter.first_name = row.voter_first_name
+            voter.surname = row.voter_surname
+            voter.email = row.voter_email
+            voter.mobile_phone=re.sub("[^0-9]", "", row.voter_mobile_phone)
+            voter.save()
+            if establishment.voter_id is None:
+                establishment.voter = voter                
             establishment.save()
             write("\r{0}".format(line+1))
             self.stdout.flush()            
