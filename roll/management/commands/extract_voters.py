@@ -186,9 +186,12 @@ class Command(BaseCommand):
             write = self.stdout.write
         else:
             write = self.writenl
-        establishments = Establishment.objects.select_related('voter',
-                                                              'rating').filter(
-            voter_id__isnull=False)
+        establishments = Establishment.objects. \
+                         select_related('voter',
+                                        'fee_payment',
+                                        'rating') \
+                             .filter(voter_id__isnull=False,
+                                     fee_payment__fee_paid=True)
 
         for establishment in establishments:
             row = [
