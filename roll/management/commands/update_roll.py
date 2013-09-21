@@ -66,14 +66,18 @@ class Command(BaseCommand):
             operator, c = Operator.objects.get_or_create(name=row.operator)
             owner, c = Owner.objects.get_or_create(name=row.owner)
             license = row.license
+            if row.fee_paid == 'True':
+                fee_paid = True
+            else:
+                fee_paid = False
             if len(row.payment_date) > 0:
                 payment_date = datetime.strptime(row.payment_date, '%Y-%m-%d')
                 fee_payment, c = FeePayment.objects.get_or_create(
-                    fee_paid=row.fee_paid,
+                    fee_paid=fee_paid,
                     payment_date=payment_date)
             else :
                 fee_payment, c = FeePayment.objects.get_or_create(
-                    fee_paid=row.fee_paid)
+                    fee_paid=fee_paid)
             telephone = row.telephone
             fax = row.fax
             email = row.email
